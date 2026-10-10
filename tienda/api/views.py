@@ -2,12 +2,12 @@ from django.contrib.auth import get_user_model
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
 from tienda.infra.factories import PaymentFactory
 from tienda.services import CompraService
-
 from .serializers import OrdenInputSerializer
-
+from rest_framework.generics import ListAPIView
+from tienda.models import Libro
+from .serializers import LibroSerializer
 
 class CompraAPIView(APIView):
     """
@@ -49,3 +49,6 @@ class CompraAPIView(APIView):
                 {"error": "Error interno"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
+class ProductoListAPIView(ListAPIView):
+    queryset = Libro.objects.all()
+    serializer_class = LibroSerializer
